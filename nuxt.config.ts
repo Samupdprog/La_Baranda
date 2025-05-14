@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -6,7 +5,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
   ],
-  
+
   server: {
     port: 80,
     host: '0.0.0.0',
