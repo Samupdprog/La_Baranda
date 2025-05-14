@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "menu": "Carte",
+    "about": "À propos",
+    "contact": "Contact",
+    "brunch": "Brunch"
+  },
+  "intro": {
+    "title": "Brunch",
+    "subtitle": "Expériences de brunch inoubliables",
+    "text": "Découvrez nos propositions de brunch dans un cadre moderne et élégant. À La Baranda, nous allions saveurs exquises et ingrédients frais pour créer une expérience unique."
+  },
+  "footer": {
+    "title": "Cafétéria La Baranda",
+    "slogan": "Un lieu pour savourer les meilleurs moments",
+    "privacy": "Politique de confidentialité",
+    "terms": "Transparence",
+    "copyright": "© 2025 Cafétéria La Baranda. Tous droits réservés."
+  },
+  "brunch": {
+    "metropolitan": { "title": "Metropolitan" },
+    "deluxe":       { "title": "Deluxe" },
+    "newyork":      { "title": "New York" }
+  },
+  "brunchMenus": {
+    "1": {
+      "title": "Metropolitan",
+      "price": "25,00 €",
+      "image": "/img/Metropolitan.png",
+      "items": [
+        "Jus, cava, café ou thé",
+        "Panier de petits pains",
+        "Confitures, tartine de tomate et beurre",
+        "Œufs brouillés, bacon et roquette",
+        "Plateau de fromages",
+        "Salade de fruits"
+      ]
+    },
+    "2": {
+      "title": "Deluxe",
+      "price": "25,00 €",
+      "image": "/img/Deluxe.png",
+      "items": [
+        "Jus, cava, café ou thé",
+        "Panier de petits pains",
+        "Yaourt avec céréales et fruits",
+        "Confitures, tartine de tomate et beurre",
+        "Mini toasts au saumon et ibérique",
+        "Pancakes avec sirop ou miel"
+      ]
+    },
+    "3": {
+      "title": "New York",
+      "price": "25,00 €",
+      "image": "/img/New-york.png",
+      "items": [
+        "Jus, cava, café ou thé",
+        "Panier de petits pains",
+        "Confitures, tartine de tomate et beurre",
+        "Mini hamburgers",
+        "Salade César",
+        "Mini brochettes de fromage frais et tomate"
+      ]
+    }
+  },
+  "reservation": {
+    "loading_payment":       "Chargement de la méthode de paiement…",
+    "pay":                   "Payer",
+    "paying":                "Traitement du paiement",
+    "payment_intent_error":  "Impossible de créer le PaymentIntent",
+    "payment_error":         "Erreur lors de l'initialisation du paiement",
+    "unexpected_error":      "Une erreur inattendue est survenue",
+    "personal_info":         "Informations personnelles",
+    "details":               "Détails de la réservation",
+    "additional_info":       "Informations supplémentaires",
+    "brunch_type":           "Type de brunch",
+    "brunch_type_required":  "Veuillez sélectionner au moins un brunch",
+    "title":                 "Réservation",
+    "name":                  "Prénom",
+    "name_required":         "Le prénom est obligatoire.",
+    "surname":               "Nom",
+    "surname_required":      "Le nom est obligatoire.",
+    "email":                 "E-mail",
+    "email_required":        "L'e-mail est obligatoire.",
+    "email_invalid":         "L'e-mail n'est pas valide.",
+    "phone":                 "Téléphone",
+    "phone_required":        "Le téléphone est obligatoire.",
+    "phone_invalid":         "Le numéro de téléphone n'est pas valide.",
+    "language":              "Langue",
+    "people_count":          "Nombre de personnes",
+    "people_count_required": "Le nombre de personnes est obligatoire.",
+    "people_count_max":      "Le nombre maximum de personnes est de 10.",
+    "date":                  "Date",
+    "date_required":         "La date est obligatoire.",
+    "date_min_notice":       "La réservation minimale est dans 2 jours.",
+    "date_min_48h":          "La date doit être au moins 48 heures à partir d'aujourd'hui.",
+    "time":                  "Heure",
+    "time_required":         "L'heure est obligatoire.",
+    "select_time":           "Sélectionnez l'heure",
+    "payment_method":        "Méthode de paiement",
+    "payment_method_required":"Vous devez sélectionner une méthode de paiement.",
+    "card":                  "Carte",
+    "cash":                  "Espèces",
+    "cash_warning":          "Vous devez effectuer un dépôt de 6 € en garantie par carte.",
+    "cash_deposit_notice":   "Un dépôt de 6 € par brunch est requis en tant que garantie.",
+    "total_payment_notice":  "Le montant total à payer est :",
+    "allergies":             "Allergies",
+    "allergies_limit":       "caractères",
+    "allergies_limit_chars": "Ne peut pas dépasser {maxChars} caractères.",
+    "words":                 "mots",
+    "accept_terms":          "J'accepte les termes et conditions",
+    "accept_terms_required": "Vous devez accepter les termes et conditions.",
+    "submit":                "Réserver",
+    "submitting":            "Envoi…",
+    "success_message":       "Réservation réussie !",
+    "form_error":            "Veuillez corriger les erreurs du formulaire.",
+    "processing_payment":    "Traitement du paiement…",
+    "payment_success":       "Paiement réussi !",
+    "payment_success_message":"Votre réservation a été confirmée. Nous vous enverrons un e-mail avec tous les détails.",
+    "payment_processing_error":"Une erreur est survenue lors du traitement de votre paiement. Veuillez réessayer.",
+    "payment_general_error": "Une erreur inattendue est survenue. Veuillez réessayer.",
+    "payment_summary":        "Résumé du paiement",
+    "secure_payment":         "Paiement sécurisé traité par Stripe",
+    "proceed_to_payment":     "Procéder au paiement",
+    "return_home":            "Retour à l'accueil",
+    "price_per_brunch":       "Prix par brunch : 25 €",
+    "total_brunchs":          "Total de brunchs",
+    "total_amount":           "Montant total",
+    "cash_deposit_success":   "Dépôt enregistré avec succès. Veuillez compléter le paiement en espèces le jour de votre réservation."
+  },
+  "confirmation": {
+    "verifying_payment":      "Vérification du paiement…",
+    "missing_payment_info":    "Informations de paiement manquantes.",
+    "payment_not_found":       "Paiement introuvable.",
+    "payment_error":           "Erreur lors du traitement du paiement.",
+    "payment_not_successful":  "Paiement non réussi : {status}",
+    "payment_success":         "Paiement réussi !",
+    "reservation_confirmed":   "Votre réservation a été confirmée.",
+    "reservation_details":     "Détails de la réservation",
+    "reservation_id":          "ID de réservation",
+    "payment_status":          "Statut du paiement",
+    "paid":                    "Payé",
+    "amount":                  "Montant",
+    "email_sent":             "Un e-mail avec les détails vous a été envoyé.",
+    "try_again":              "Réessayer",
+    "back_to_home":           "Retour à l'accueil",
+    "unknown_error":          "Une erreur inconnue est survenue."
+  },
+  "button": "Réserver"
+}

@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About Us",
+    "contact": "Contact",
+    "brunch": "Brunch"
+  },
+  "intro": {
+    "title": "Brunch",
+    "subtitle": "Unforgettable brunch experiences",
+    "text": "Discover our brunch offerings in a modern, elegant setting. At La Baranda, we combine exquisite flavors with fresh ingredients to create a unique experience."
+  },
+  "footer": {
+    "title": "La Baranda Café",
+    "slogan": "A place to enjoy the best moments",
+    "privacy": "Privacy Policy",
+    "terms": "Transparency",
+    "copyright": "© 2025 La Baranda Café. All rights reserved."
+  },
+  "brunch": {
+    "metropolitan": { "title": "Metropolitan" },
+    "deluxe":       { "title": "Deluxe" },
+    "newyork":      { "title": "New York" }
+  },
+  "brunchMenus": {
+    "1": {
+      "title": "Metropolitan",
+      "price": "€25.00",
+      "image": "/img/Metropolitan.png",
+      "items": [
+        "Juice, cava, coffee or tea",
+        "Basket of rolls",
+        "Jams, tumaca, and butter",
+        "Scrambled eggs, bacon, and arugula",
+        "Cheese platter",
+        "Fruit salad"
+      ]
+    },
+    "2": {
+      "title": "Deluxe",
+      "price": "€25.00",
+      "image": "/img/Deluxe.png",
+      "items": [
+        "Juice, cava, coffee or tea",
+        "Basket of rolls",
+        "Yogurt with cereals and fruit",
+        "Jams, tumaca, and butter",
+        "Mini salmon and Iberian toasts",
+        "Pancakes with syrup or honey"
+      ]
+    },
+    "3": {
+      "title": "New York",
+      "price": "€25.00",
+      "image": "/img/New-york.png",
+      "items": [
+        "Juice, cava, coffee or tea",
+        "Basket of rolls",
+        "Jams, tumaca, and butter",
+        "Mini hamburgers",
+        "Caesar salad",
+        "Mini skewers of fresh cheese and tomato"
+      ]
+    }
+  },
+  "reservation": {
+    "loading_payment":         "Loading payment method…",
+    "pay":                     "Pay",
+    "paying":                  "Processing payment",
+    "payment_intent_error":    "Could not create payment intent",
+    "payment_error":           "Error initiating payment",
+    "unexpected_error":        "An unexpected error occurred",
+    "personal_info":           "Personal Information",
+    "details":                 "Reservation Details",
+    "additional_info":         "Additional Information",
+    "brunch_type":             "Brunch type",
+    "brunch_type_required":    "Please select at least one brunch",
+    "title":                   "Reservation",
+    "name":                    "Name",
+    "name_required":           "Name is required.",
+    "surname":                 "Surname",
+    "surname_required":        "Surname is required.",
+    "email":                   "Email",
+    "email_required":          "Email is required.",
+    "email_invalid":           "Email is not valid.",
+    "phone":                   "Phone",
+    "phone_required":          "Phone number is required.",
+    "phone_invalid":           "Phone number is not valid.",
+    "language":                "Language",
+    "people_count":            "Number of people",
+    "people_count_required":   "Number of people is required.",
+    "people_count_max":        "Maximum number of people is 10.",
+    "date":                    "Date",
+    "date_required":           "Date is required.",
+    "date_min_notice":         "Earliest booking is in 2 days.",
+    "date_min_48h":            "Date must be at least 48 hours from today.",
+    "time":                    "Time",
+    "time_required":           "Time is required.",
+    "select_time":             "Select time",
+    "payment_method":          "Payment method",
+    "payment_method_required": "You must select a payment method.",
+    "card":                    "Card",
+    "cash":                    "Cash",
+    "cash_warning":            "You must make a €6 security deposit by card.",
+    "cash_deposit_notice":     "A €6 deposit per brunch is required as a guarantee.",
+    "total_payment_notice":    "The total amount to pay is:",
+    "allergies":               "Allergies",
+    "allergies_limit":         "characters",
+    "allergies_limit_chars":   "Cannot exceed {maxChars} characters.",
+    "words":                   "words",
+    "accept_terms":            "I accept the terms and conditions",
+    "accept_terms_required":   "You must accept the terms and conditions.",
+    "submit":                  "Book",
+    "submitting":              "Submitting...",
+    "success_message":         "Reservation successful!",
+    "form_error":              "Please correct the errors in the form.",
+    "processing_payment":      "Processing payment...",
+    "payment_success":         "Payment successful!",
+    "payment_success_message": "Your reservation has been confirmed. We will send you an email with all the details.",
+    "payment_processing_error":"There was an error processing your payment. Please try again.",
+    "payment_general_error":   "An unexpected error occurred. Please try again.",
+    "payment_summary":         "Payment summary",
+    "secure_payment":          "Secure payment processed by Stripe",
+    "proceed_to_payment":      "Proceed to payment",
+    "return_home":             "Return to home",
+    "price_per_brunch":        "Price per brunch: €25",
+    "total_brunchs":           "Total brunchs",
+    "total_amount":            "Total amount",
+    "cash_deposit_success":    "Deposit registered successfully. Please complete the cash payment on the day of your reservation."
+  },
+  "confirmation": {
+    "verifying_payment":      "Verifying payment…",
+    "missing_payment_info":    "Payment information is missing.",
+    "payment_not_found":       "Payment not found.",
+    "payment_error":           "Error processing payment.",
+    "payment_not_successful":  "Payment not successful: {status}",
+    "payment_success":         "Payment successful!",
+    "reservation_confirmed":   "Your reservation has been confirmed.",
+    "reservation_details":     "Reservation details",
+    "reservation_id":          "Reservation ID",
+    "payment_status":          "Payment status",
+    "paid":                    "Paid",
+    "amount":                  "Amount",
+    "email_sent":             "An email with the details has been sent to you.",
+    "try_again":              "Try again",
+    "back_to_home":           "Back to home",
+    "unknown_error":          "An unknown error occurred."
+  },
+  "button": "Book"
+}

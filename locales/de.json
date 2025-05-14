@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "menu": "Speisekarte",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "brunch": "Brunch"
+  },
+  "intro": {
+    "title": "Brunch",
+    "subtitle": "Unvergessliche Brunch-Erlebnisse",
+    "text": "Entdecken Sie unsere Brunch-Angebote in einem modernen, eleganten Ambiente. Bei La Baranda verbinden wir exquisite Aromen mit frischen Zutaten zu einem einzigartigen Erlebnis."
+  },
+  "footer": {
+    "title": "Café La Baranda",
+    "slogan": "Ein Ort, um die besten Momente zu genießen",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Transparenz",
+    "copyright": "© 2025 Café La Baranda. Alle Rechte vorbehalten."
+  },
+  "brunch": {
+    "metropolitan": { "title": "Metropolitan" },
+    "deluxe": { "title": "Deluxe" },
+    "newyork": { "title": "New York" }
+  },
+  "brunchMenus": {
+    "1": {
+      "title": "Metropolitan",
+      "price": "25,00 €",
+      "image": "/img/Metropolitan.png",
+      "items": [
+        "Saft, Cava, Kaffee oder Tee",
+        "Korb mit Brötchen",
+        "Marmeladen, Tomatenaufstrich und Butter",
+        "Rührei mit Speck und Rucola",
+        "Käseplatte",
+        "Obstsalat"
+      ]
+    },
+    "2": {
+      "title": "Deluxe",
+      "price": "25,00 €",
+      "image": "/img/Deluxe.png",
+      "items": [
+        "Saft, Cava, Kaffee oder Tee",
+        "Korb mit Brötchen",
+        "Joghurt mit Müsli und Früchten",
+        "Marmeladen, Tomatenaufstrich und Butter",
+        "Mini-Lachstoasts und Ibérico-Schinken",
+        "Pfannkuchen mit Sirup oder Honig"
+      ]
+    },
+    "3": {
+      "title": "New York",
+      "price": "25,00 €",
+      "image": "/img/New-york.png",
+      "items": [
+        "Saft, Cava, Kaffee oder Tee",
+        "Korb mit Brötchen",
+        "Marmeladen, Tomatenaufstrich und Butter",
+        "Mini-Hamburger",
+        "Caesar-Salat",
+        "Mini-Spieße aus Frischkäse und Tomate"
+      ]
+    }
+  },
+  "reservation": {
+    "loading_payment": "Zahlungsmethode wird geladen…",
+    "pay": "Bezahlen",
+    "paying": "Zahlung wird verarbeitet…",
+    "payment_intent_error": "Zahlungsabsicht konnte nicht erstellt werden",
+    "payment_error": "Fehler beim Starten der Zahlung",
+    "unexpected_error": "Ein unerwarteter Fehler ist aufgetreten",
+    "personal_info": "Persönliche Informationen",
+    "details": "Reservierungsdetails",
+    "additional_info": "Zusätzliche Informationen",
+    "brunch_type": "Brunch-Typ",
+    "brunch_type_required": "Bitte wählen Sie mindestens einen Brunch aus",
+    "title": "Reservierung",
+    "name": "Vorname",
+    "name_required": "Vorname ist erforderlich.",
+    "surname": "Nachname",
+    "surname_required": "Nachname ist erforderlich.",
+    "email": "E-Mail",
+    "email_required": "E-Mail ist erforderlich.",
+    "email_invalid": "E-Mail ist nicht gültig.",
+    "phone": "Telefon",
+    "phone_required": "Telefonnummer ist erforderlich.",
+    "phone_invalid": "Telefonnummer ist nicht gültig.",
+    "language": "Sprache",
+    "people_count": "Anzahl der Personen",
+    "people_count_required": "Anzahl der Personen ist erforderlich.",
+    "people_count_max": "Maximal 10 Personen.",
+    "date": "Datum",
+    "date_required": "Datum ist erforderlich.",
+    "date_min_notice": "Früheste Buchung in 2 Tagen.",
+    "date_min_48h": "Datum muss mindestens 48 Stunden ab heute liegen.",
+    "time": "Uhrzeit",
+    "time_required": "Uhrzeit ist erforderlich.",
+    "select_time": "Uhrzeit wählen",
+    "payment_method": "Zahlungsmethode",
+    "payment_method_required": "Sie müssen eine Zahlungsmethode auswählen.",
+    "card": "Karte",
+    "cash": "Bar",
+    "cash_warning": "Sie müssen eine Kaution von 6 € per Karte hinterlegen.",
+    "cash_deposit_notice": "Eine Kaution von 6 € pro Brunch ist als Garantie erforderlich.",
+    "total_payment_notice": "Der zu zahlende Gesamtbetrag ist:",
+    "allergies": "Allergien",
+    "allergies_limit": "Zeichen",
+    "allergies_limit_chars": "Darf nicht mehr als {maxChars} Zeichen haben.",
+    "words": "Wörter",
+    "accept_terms": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen",
+    "accept_terms_required": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren.",
+    "submit": "Buchen",
+    "submitting": "Wird gesendet…",
+    "success_message": "Reservierung erfolgreich!",
+    "form_error": "Bitte korrigieren Sie die Fehler im Formular.",
+    "processing_payment": "Zahlung wird verarbeitet…",
+    "payment_success": "Zahlung erfolgreich!",
+    "payment_success_message": "Ihre Reservierung wurde bestätigt. Wir senden Ihnen eine E-Mail mit allen Details.",
+    "payment_processing_error": "Fehler bei der Verarbeitung Ihrer Zahlung. Bitte versuchen Sie es erneut.",
+    "payment_general_error": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "payment_summary": "Zahlungsübersicht",
+    "secure_payment": "Sichere Zahlung verarbeitet von Stripe",
+    "proceed_to_payment": "Zur Zahlung fortfahren",
+    "return_home": "Zurück zur Startseite",
+    "price_per_brunch": "Preis pro Brunch: 25 €",
+    "total_brunchs": "Anzahl Brunchs",
+    "total_amount": "Gesamtbetrag",
+    "cash_deposit_success": "Kaution erfolgreich registriert. Bitte begleichen Sie den Restbetrag bar am Tag Ihrer Reservierung."
+  },
+  "confirmation": {
+    "verifying_payment": "Zahlung wird überprüft…",
+    "missing_payment_info": "Zahlungsinformationen fehlen.",
+    "payment_not_found": "Zahlung nicht gefunden.",
+    "payment_error": "Fehler bei der Zahlungsabwicklung.",
+    "payment_not_successful": "Zahlung nicht erfolgreich: {status}",
+    "payment_success": "Zahlung erfolgreich!",
+    "reservation_confirmed": "Ihre Reservierung wurde bestätigt.",
+    "reservation_details": "Reservierungsdetails",
+    "reservation_id": "Reservierungs-ID",
+    "payment_status": "Zahlungsstatus",
+    "paid": "Bezahlt",
+    "amount": "Betrag",
+    "email_sent": "Eine E-Mail mit den Details wurde Ihnen gesendet.",
+    "try_again": "Erneut versuchen",
+    "back_to_home": "Zurück zur Startseite",
+    "unknown_error": "Ein unbekannter Fehler ist aufgetreten."
+  },
+  "button": "Buchen"
+}

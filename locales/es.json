@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "menu": "Carta",
+    "about": "Quiénes Somos",
+    "contact": "Contacto",
+    "brunch": "Brunch"
+  },
+  "intro": {
+    "title": "Brunch",
+    "subtitle": "Experiencias de brunch inolvidables",
+    "text": "Descubre nuestras propuestas de brunch en un ambiente moderno y elegante. En La Baranda, combinamos sabores exquisitos con ingredientes frescos para crear una experiencia única."
+  },
+  "footer": {
+    "title": "Cafetería La Baranda",
+    "slogan": "Un espacio donde disfrutar de los mejores momentos",
+    "privacy": "Política de privacidad",
+    "terms": "Transparencia",
+    "copyright": "© 2025 Cafetería La Baranda. Todos los derechos reservados."
+  },
+  "brunch": {
+    "metropolitan": { "title": "Metropolitan" },
+    "deluxe": { "title": "Deluxe" },
+    "newyork": { "title": "New York" }
+  },
+  "brunchMenus": {
+    "1": {
+      "title": "Metropolitan",
+      "price": "25,00 €",
+      "image": "/img/Metropolitan.png",
+      "items": [
+        "Zumo, cava, café o té",
+        "Cesta de panecillos",
+        "Mermeladas, tumaca y mantequilla",
+        "Revuelto de huevo, bacon y rúcula",
+        "Tabla de quesos",
+        "Macedonia de frutas"
+      ]
+    },
+    "2": {
+      "title": "Deluxe",
+      "price": "25,00 €",
+      "image": "/img/Deluxe.png",
+      "items": [
+        "Zumo, cava, café o té",
+        "Cestas de panecillos",
+        "Yogur con cereales y fruta",
+        "Mermeladas, tumaca y mantequilla",
+        "Mini tostadas de salmón e ibérico",
+        "Tortitas con sirope o miel"
+      ]
+    },
+    "3": {
+      "title": "New York",
+      "price": "25,00 €",
+      "image": "/img/New-york.png",
+      "items": [
+        "Zumo, cava, café o té",
+        "Cesta de panecillos",
+        "Mermeladas, tumaca y mantequilla",
+        "Mini hamburguesas",
+        "Ensalada César",
+        "Mini brochetas de queso fresco y tomate"
+      ]
+    }
+  },
+  "reservation": {
+    "loading_payment": "Cargando método de pago…",
+    "pay": "Pagar",
+    "paying": "Procesando pago",
+    "payment_intent_error": "No se pudo crear la intención de pago",
+    "payment_error": "Error al iniciar el pago",
+    "unexpected_error": "Ha ocurrido un error inesperado",
+    "personal_info": "Información personal",
+    "details": "Detalles de reserva",
+    "additional_info": "Información adicional",
+    "brunch_type": "Tipo de brunch",
+    "brunch_type_required": "Por favor selecciona al menos un brunch",
+    "title": "Reserva",
+    "name": "Nombre",
+    "name_required": "El nombre es obligatorio.",
+    "surname": "Apellido",
+    "surname_required": "El apellido es obligatorio.",
+    "email": "Correo electrónico",
+    "email_required": "El correo electrónico es obligatorio.",
+    "email_invalid": "El correo electrónico no es válido.",
+    "phone": "Teléfono",
+    "phone_required": "El teléfono es obligatorio.",
+    "phone_invalid": "El número de teléfono no es válido.",
+    "language": "Idioma",
+    "people_count": "Número de personas",
+    "people_count_required": "El número de personas es obligatorio.",
+    "people_count_max": "El número máximo de personas es 10.",
+    "date": "Fecha",
+    "date_required": "La fecha es obligatoria.",
+    "date_min_notice": "La fecha mínima es dentro de 2 días.",
+    "date_min_48h": "La fecha debe ser al menos 48 horas a partir de hoy.",
+    "time": "Hora",
+    "time_required": "La hora es obligatoria.",
+    "select_time": "Selecciona hora",
+    "payment_method": "Método de pago",
+    "payment_method_required": "Debe seleccionar un método de pago.",
+    "card": "Tarjeta",
+    "cash": "Efectivo",
+    "cash_warning": "Debe realizar un ingreso de 6 € de seguro por tarjeta.",
+    "cash_deposit_notice": "Se requiere un depósito de 6 € por cada brunch como garantía.",
+    "total_payment_notice": "El importe total a pagar es:",
+    "allergies": "Alergias",
+    "allergies_limit": "caracteres",
+    "allergies_limit_chars": "No puede exceder los {maxChars} caracteres.",
+    "words": "palabras",
+    "accept_terms": "Acepto los términos y condiciones",
+    "accept_terms_required": "Debe aceptar los términos y condiciones.",
+    "submit": "Reservar",
+    "submitting": "Enviando...",
+    "success_message": "¡Reserva realizada con éxito!",
+    "form_error": "Por favor, corrige los errores en el formulario.",
+    "processing_payment": "Procesando pago...",
+    "payment_success": "¡Pago realizado con éxito!",
+    "payment_success_message": "Tu reserva ha sido confirmada. Te enviaremos un correo electrónico con todos los detalles.",
+    "payment_processing_error": "Hubo un error al procesar tu pago. Por favor, inténtalo de nuevo.",
+    "payment_general_error": "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo.",
+    "payment_summary": "Resumen de pago",
+    "secure_payment": "Pago seguro procesado por Stripe",
+    "proceed_to_payment": "Proceder al pago",
+    "return_home": "Volver al inicio",
+    "price_per_brunch": "Precio por brunch: 25 €",
+    "total_brunchs": "Total brunchs",
+    "total_amount": "Importe total",
+    "cash_deposit_success": "Depósito registrado correctamente. Por favor, complete el pago en efectivo el día de su reserva."
+  },
+  "confirmation": {
+    "verifying_payment": "Verificando el pago…",
+    "missing_payment_info": "Falta información de pago.",
+    "payment_not_found": "No se encontró el pago.",
+    "payment_error": "Error al procesar el pago.",
+    "payment_not_successful": "Pago no exitoso: {status}",
+    "payment_success": "¡Pago realizado con éxito!",
+    "reservation_confirmed": "Tu reserva ha sido confirmada.",
+    "reservation_details": "Detalles de la reserva",
+    "reservation_id": "ID de reserva",
+    "payment_status": "Estado del pago",
+    "paid": "Pagado",
+    "amount": "Importe",
+    "email_sent": "Te hemos enviado un correo con los detalles.",
+    "try_again": "Inténtalo de nuevo",
+    "back_to_home": "Volver al inicio",
+    "unknown_error": "Se produjo un error desconocido."
+  },
+  "button": "Reservar"
+}
