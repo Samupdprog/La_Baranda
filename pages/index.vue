@@ -11,10 +11,10 @@
 
           <!-- Navigation Links (Desktop) -->
           <nav class="hidden md:flex space-x-10 mx-auto">
-            <a href="#" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.home') }}</a>
-            <a href="#" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.menu') }}</a>
-            <a href="#" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.about') }}</a>
-            <a href="#" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.contact') }}</a>
+            <a href="https://cafeterialabaranda.com/" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.home') }}</a>
+            <a href="https://cafeterialabaranda.com/carta/" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.menu') }}</a>
+            <a href="https://cafeterialabaranda.com/quienes-somos/" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.about') }}</a>
+            <a href="https://cafeterialabaranda.com/contacto/" class="text-gray-600 hover:text-gray-900 text-sm font-medium">{{ $t('nav.contact') }}</a>
             <a href="#" class="text-gray-900 border-b-2 border-[#eeb504] text-sm font-medium">{{ $t('nav.brunch') }}</a>
           </nav>
 
