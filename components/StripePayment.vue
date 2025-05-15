@@ -63,6 +63,10 @@ const errorMessage = ref('');
 const isReady = ref(false);
 const paymentIntentId = ref('');
 
+// i18n instance should be used at the top level
+const i18n = useI18n();
+const t = i18n.t;
+
 onMounted(async () => {
   stripe.value = $stripe;
   await initializePaymentElement();
@@ -83,7 +87,7 @@ async function initializePaymentElement() {
     }
     
     const data = await response.json();
-    if (!data.clientSecret) throw new Error($t('reservation.payment_intent_error'));
+    if (!data.clientSecret) throw new Error(t('reservation.payment_intent_error'));
     
     clientSecret.value = data.clientSecret;
     paymentIntentId.value = data.paymentIntentId || '';
@@ -101,7 +105,7 @@ async function initializePaymentElement() {
     });
   } catch (err) {
     console.error('Error al inicializar el elemento de pago:', err);
-    errorMessage.value = err.message || $t('reservation.payment_error');
+    errorMessage.value = err.message || t('reservation.payment_error');
     emit('payment-error', errorMessage.value);
   } finally {
     isLoading.value = false;
@@ -118,29 +122,36 @@ async function handleSubmit() {
   errorMessage.value = '';
 
   try {
-    // Enviar los datos del formulario a Node-RED antes de confirmar el pago
-    // Esto asegura que los datos se guarden incluso si hay un problema con Stripe
-    emit('payment-success', {
-      paymentIntentId: paymentIntentId.value || clientSecret.value.split('_secret')[0],
-      clientSecret: clientSecret.value
-    });
-
-    // Usar window.location.href para la redirección en lugar de confirmPayment
-    // Esto evita problemas con la redirección de Stripe
+    // Preparar la URL de retorno
     const returnUrl = `${window.location.origin}/reservas/confirmacion?payment_intent=${paymentIntentId.value || clientSecret.value.split('_secret')[0]}&payment_intent_client_secret=${clientSecret.value}`;
     
-    // confirmPayment con redirect: 'always' para forzar la redirección
-    const { error } = await stripe.value.confirmPayment({
+    const { error, paymentIntent } = await stripe.value.confirmPayment({
       elements: elements.value,
       confirmParams: { 
         return_url: returnUrl
       },
-      redirect: 'always'
+      redirect: 'if_required'
     });
 
-    // Si llegamos aquí, es porque hubo un error pero no se redirigió
+    // Si llegamos aquí, es porque hubo un error o no se requirió redirección
     if (error) {
       throw error;
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+      // Solo emitir el evento payment-success si el pago ha sido exitoso
+      emit('payment-success', {
+        paymentIntentId: paymentIntent.id || paymentIntentId.value || clientSecret.value.split('_secret')[0],
+        clientSecret: clientSecret.value
+      });
+      
+      // Esperar un breve momento para que el evento se procese
+      setTimeout(() => {
+        // Redirigir después de un pequeño retraso
+        window.location.href = returnUrl;
+      }, 500);
+    } else {
+      // Si el pago no se completó pero no hay error
+      errorMessage.value = t('reservation.payment_incomplete');
+      emit('payment-error', errorMessage.value);
     }
   } catch (error) {
     console.error('Error al procesar el pago:', error);
@@ -148,16 +159,10 @@ async function handleSubmit() {
     if (error.type === 'card_error' || error.type === 'validation_error') {
       errorMessage.value = error.message;
     } else {
-      errorMessage.value = $t('reservation.unexpected_error');
+      errorMessage.value = t('reservation.unexpected_error');
     }
     
     emit('payment-error', errorMessage.value);
-    
-    // Intentar redirección manual en caso de error
-    setTimeout(() => {
-      const returnUrl = `${window.location.origin}/reservas/confirmacion?payment_intent=${paymentIntentId.value || clientSecret.value.split('_secret')[0]}&payment_intent_client_secret=${clientSecret.value}`;
-      window.location.href = returnUrl;
-    }, 2000);
   } finally {
     isLoading.value = false;
   }
