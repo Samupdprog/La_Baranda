@@ -842,15 +842,15 @@ function buildItems() {
   if (formData.payment_method === 'cash') {
     // Para pago en efectivo, se cobra el "seguro" de 6€ por brunch
     items.push({
-      productId: 'prod_SFwOl5cJEY6B6b',
+      productId: 'prod_SJiCqRm6KZnd5Y',
       quantity: totalBrunchs.value
     });
   } else {
     // Para pago con tarjeta, se cobran los brunches a 25€ c/u
     const map = {
-      '1': 'prod_SFvocijpQRT2cn',   // New York
-      '2': 'prod_SFvkIp2pfuhk6r',    // Deluxe
-      '3': 'prod_SFvjWCLTKNtOKy'     // Metropolitan
+      '1': 'prod_SJi8WSsiE7cboJ',   // New York
+      '2': 'prod_SJi8jydFR9oyNV',    // Deluxe
+      '3': 'prod_SJi2U6K27tsau6'     // Metropolitan
     };
     for (const [id, qty] of Object.entries(formData.brunches)) {
       if (qty > 0) {
