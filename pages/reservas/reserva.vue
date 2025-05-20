@@ -936,7 +936,7 @@ const handlePaymentSuccess = async ({ paymentIntentId, clientSecret }) => {
     
     // Enviar los datos a Node-RED
     try {
-      const response = await fetch('http://51.44.85.162:1880/formulario', {
+      const response = await fetch('https://51.44.85.162:1880/formulario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSend)
@@ -994,7 +994,7 @@ const processCashPayment = async () => {
     sessionStorage.setItem('reservationAmount', formattedDepositAmount.value);
     
     // Enviar los datos a Node-RED
-    const response = await fetch('http://51.44.85.162:1880/formulario', {
+    const response = await fetch('https://51.44.85.162:1880/formulario', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dataToSend)
