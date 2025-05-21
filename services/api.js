@@ -94,7 +94,6 @@ export const getReservationsByDate = async (date) => {
   }
 }
 
-
 // Obtener una reserva específica
 export const getReservation = async (id) => {
   try {
@@ -110,7 +109,9 @@ export const getReservation = async (id) => {
       throw new Error(`Error HTTP: ${response.status}`)
     }
 
-    return await response.json()
+    const data = await response.json()
+    console.log(`Respuesta de getReservation(${id}):`, data)
+    return data
   } catch (error) {
     console.error(`Error al obtener reserva ${id}:`, error)
     throw error
@@ -120,7 +121,7 @@ export const getReservation = async (id) => {
 // Crear una nueva reserva
 export const createReservation = async (data) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/create`, {
+    const response = await fetch(`${API_BASE_URL}/reservas`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -143,6 +144,8 @@ export const createReservation = async (data) => {
 // Actualizar una reserva existente
 export const updateReservation = async (id, data) => {
   try {
+    console.log(`Actualizando reserva ${id} con datos:`, data)
+    
     const response = await fetch(`${API_BASE_URL}/reservas/${id}`, {
       method: "PUT",
       headers: {
@@ -153,6 +156,8 @@ export const updateReservation = async (id, data) => {
     })
 
     if (!response.ok) {
+      const errorText = await response.text()
+      console.error(`Error HTTP ${response.status}: ${errorText}`)
       throw new Error(`Error HTTP: ${response.status}`)
     }
 

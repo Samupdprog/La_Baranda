@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-50">
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-gray-800">{{ isNewReservation ? 'Nueva Reserva' : 'Editar Reserva' }}</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Nueva Reserva</h1>
         <div class="flex items-center space-x-4">
           <router-link to="/admin/reservas" class="text-emerald-600 hover:text-emerald-800">
             Volver a reservas
@@ -12,21 +12,7 @@
     </header>
     
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div v-if="loading && !isNewReservation" class="text-center py-10">
-        <p class="text-gray-500">Cargando información de la reserva...</p>
-      </div>
-      
-      <div v-else-if="error && !isNewReservation" class="text-center py-10">
-        <p class="text-red-500">{{ error }}</p>
-        <button 
-          @click="fetchReservation" 
-          class="mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-        >
-          Reintentar
-        </button>
-      </div>
-      
-      <div v-else class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <form @submit.prevent="saveReservation" class="space-y-6 p-6">
           <!-- Información del cliente -->
           <div>
@@ -292,202 +278,151 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { getReservation, createReservation, updateReservation } from '~/services/api.js'
+import { useRouter } from 'vue-router'
+import { createReservation, isAuthenticated } from '@/services/api'
 
-const route = useRoute()
-const router = useRouter()
-const isNewReservation = computed(() => route.params.id === 'create')
-const reservation = ref(null)
-const loading = ref(!isNewReservation.value)
-const error = ref(null)
-const saving = ref(false)
-
-// Formulario
-const form = ref({
-  name: '',
-  surname: '',
-  email: '',
-  phone: '',
-  language: 'es',
-  people_count: 1,
-  date: new Date().toISOString().split('T')[0],
-  time: '10:00:00',
-  brunches: {
-    metropolitan: 0,
-    deluxe: 0,
-    newYork: 0
-  },
-  allergies: '',
-  payment_method: 'Tarjeta',
-  payment_status: 'succeeded'
-})
-
-// Obtener reserva para edición
-const fetchReservation = async () => {
-  if (isNewReservation.value) return
-  
-  loading.value = true
-  error.value = null
-  
-  try {
-    const data = await getReservation(route.params.id)
-    reservation.value = data
+export default {
+  setup() {
+    const router = useRouter()
+    const saving = ref(false)
     
-    // Llenar el formulario con los datos de la reserva
-    form.value.name = data.name
-    form.value.surname = data.surname
-    form.value.email = data.email
-    form.value.phone = data.phone
-    form.value.language = data.language
-    form.value.people_count = data.people_count
-    form.value.date = new Date(data.date).toISOString().split('T')[0]
-    form.value.time = data.time
-    form.value.allergies = data.allergies
-    form.value.payment_method = data.payment_method
-    form.value.payment_status = data.payment_status
+    // Formulario
+    const form = ref({
+      name: '',
+      surname: '',
+      email: '',
+      phone: '',
+      language: 'es',
+      people_count: 1,
+      date: new Date().toISOString().split('T')[0],
+      time: '10:00:00',
+      brunches: {
+        metropolitan: 0,
+        deluxe: 0,
+        newYork: 0
+      },
+      allergies: '',
+      payment_method: 'Tarjeta',
+      payment_status: 'succeeded'
+    })
     
-    // Parsear brunches
-    try {
-      const brunches = JSON.parse(data.brunches)
-      form.value.brunches.metropolitan = 0
-      form.value.brunches.deluxe = 0
-      form.value.brunches.newYork = 0
+    // Calcular totales
+    const totalBrunchs = computed(() => {
+      return parseInt(form.value.brunches.metropolitan) + 
+             parseInt(form.value.brunches.deluxe) + 
+             parseInt(form.value.brunches.newYork)
+    })
+    
+    const totalAmount = computed(() => {
+      return totalBrunchs.value * 25
+    })
+    
+    const depositAmount = computed(() => {
+      return Math.round(totalAmount.value * 0.24 * 100) / 100
+    })
+    
+    // Guardar reserva
+    const saveReservation = async () => {
+      if (totalBrunchs.value === 0) {
+        alert('Debe seleccionar al menos un brunch')
+        return
+      }
       
-      Object.values(brunches).forEach(brunch => {
-        if (brunch.title === 'Metropolitan') {
-          form.value.brunches.metropolitan = brunch.quantity
-        } else if (brunch.title === 'Deluxe') {
-          form.value.brunches.deluxe = brunch.quantity
-        } else if (brunch.title === 'New York') {
-          form.value.brunches.newYork = brunch.quantity
+      saving.value = true
+      
+      try {
+        // Preparar datos para enviar
+        const brunchesData = {}
+        
+        if (parseInt(form.value.brunches.metropolitan) > 0) {
+          brunchesData['1'] = {
+            title: 'Metropolitan',
+            quantity: parseInt(form.value.brunches.metropolitan),
+            price: '25,00 €'
+          }
         }
-      })
-    } catch (e) {
-      console.error('Error parsing brunches', e)
+        
+        if (parseInt(form.value.brunches.deluxe) > 0) {
+          brunchesData['2'] = {
+            title: 'Deluxe',
+            quantity: parseInt(form.value.brunches.deluxe),
+            price: '25,00 €'
+          }
+        }
+        
+        if (parseInt(form.value.brunches.newYork) > 0) {
+          brunchesData['3'] = {
+            title: 'New York',
+            quantity: parseInt(form.value.brunches.newYork),
+            price: '25,00 €'
+          }
+        }
+        
+        // Generar resumen de brunchs
+        const brunchSummary = []
+        if (parseInt(form.value.brunches.metropolitan) > 0) {
+          brunchSummary.push(`Metropolitan (${form.value.brunches.metropolitan})`)
+        }
+        if (parseInt(form.value.brunches.deluxe) > 0) {
+          brunchSummary.push(`Deluxe (${form.value.brunches.deluxe})`)
+        }
+        if (parseInt(form.value.brunches.newYork) > 0) {
+          brunchSummary.push(`New York (${form.value.brunches.newYork})`)
+        }
+        
+        const reservationData = {
+          name: form.value.name,
+          surname: form.value.surname,
+          email: form.value.email,
+          phone: form.value.phone,
+          language: form.value.language,
+          people_count: parseInt(form.value.people_count),
+          date: form.value.date,
+          time: form.value.time,
+          brunch_summary: brunchSummary.join(', '),
+          brunches: JSON.stringify(brunchesData),
+          total_brunchs: totalBrunchs.value,
+          payment_method: form.value.payment_method,
+          payment_status: form.value.payment_status,
+          payment_type: form.value.payment_method,
+          total_amount: totalAmount.value * 100,
+          total_amount_formatted: `${totalAmount.value.toFixed(2)} €`,
+          deposit_amount: depositAmount.value * 100,
+          deposit_amount_formatted: `${depositAmount.value.toFixed(2)} €`,
+          allergies: form.value.allergies
+        }
+        
+        // Crear nueva reserva
+        await createReservation(reservationData)
+        
+        // Redirigir a la lista de reservas
+        router.push('/admin/reservas')
+      } catch (err) {
+        alert('Error al guardar la reserva')
+        console.error(err)
+      } finally {
+        saving.value = false
+      }
     }
-  } catch (err) {
-    error.value = 'Error al cargar la información de la reserva'
-    console.error(err)
-  } finally {
-    loading.value = false
+    
+    // Verificar autenticación al montar el componente
+    onMounted(() => {
+      if (!isAuthenticated()) {
+        router.push('/')
+        return
+      }
+    })
+    
+    return {
+      form,
+      saving,
+      totalBrunchs,
+      totalAmount,
+      depositAmount,
+      saveReservation
+    }
   }
 }
-
-// Calcular totales
-const totalBrunchs = computed(() => {
-  return parseInt(form.value.brunches.metropolitan) + 
-         parseInt(form.value.brunches.deluxe) + 
-         parseInt(form.value.brunches.newYork)
-})
-
-const totalAmount = computed(() => {
-  return totalBrunchs.value * 25
-})
-
-const depositAmount = computed(() => {
-  return Math.round(totalAmount.value * 0.24 * 100) / 100
-})
-
-// Guardar reserva
-const saveReservation = async () => {
-  if (totalBrunchs.value === 0) {
-    alert('Debe seleccionar al menos un brunch')
-    return
-  }
-  
-  saving.value = true
-  
-  try {
-    // Preparar datos para enviar
-    const brunchesData = {}
-    
-    if (parseInt(form.value.brunches.metropolitan) > 0) {
-      brunchesData['1'] = {
-        title: 'Metropolitan',
-        quantity: parseInt(form.value.brunches.metropolitan),
-        price: '25,00 €'
-      }
-    }
-    
-    if (parseInt(form.value.brunches.deluxe) > 0) {
-      brunchesData['2'] = {
-        title: 'Deluxe',
-        quantity: parseInt(form.value.brunches.deluxe),
-        price: '25,00 €'
-      }
-    }
-    
-    if (parseInt(form.value.brunches.newYork) > 0) {
-      brunchesData['3'] = {
-        title: 'New York',
-        quantity: parseInt(form.value.brunches.newYork),
-        price: '25,00 €'
-      }
-    }
-    
-    // Generar resumen de brunchs
-    const brunchSummary = []
-    if (parseInt(form.value.brunches.metropolitan) > 0) {
-      brunchSummary.push(`Metropolitan (${form.value.brunches.metropolitan})`)
-    }
-    if (parseInt(form.value.brunches.deluxe) > 0) {
-      brunchSummary.push(`Deluxe (${form.value.brunches.deluxe})`)
-    }
-    if (parseInt(form.value.brunches.newYork) > 0) {
-      brunchSummary.push(`New York (${form.value.brunches.newYork})`)
-    }
-    
-    const reservationData = {
-      name: form.value.name,
-      surname: form.value.surname,
-      email: form.value.email,
-      phone: form.value.phone,
-      language: form.value.language,
-      people_count: parseInt(form.value.people_count),
-      date: form.value.date,
-      time: form.value.time,
-      brunch_summary: brunchSummary.join(', '),
-      brunches: JSON.stringify(brunchesData),
-      total_brunchs: totalBrunchs.value,
-      payment_method: form.value.payment_method,
-      payment_status: form.value.payment_status,
-      payment_type: form.value.payment_method,
-      total_amount: totalAmount.value * 100,
-      total_amount_formatted: `${totalAmount.value.toFixed(2)} €`,
-      deposit_amount: depositAmount.value * 100,
-      deposit_amount_formatted: `${depositAmount.value.toFixed(2)} €`,
-      allergies: form.value.allergies
-    }
-    
-    if (isNewReservation.value) {
-      // Crear nueva reserva
-      await createReservation(reservationData)
-    } else {
-      // Actualizar reserva existente
-      await updateReservation(route.params.id, reservationData)
-    }
-    
-    // Redirigir a la lista de reservas
-    router.push('/admin/reservas')
-  } catch (err) {
-    alert('Error al guardar la reserva')
-    console.error(err)
-  } finally {
-    saving.value = false
-  }
-}
-
-// Cargar datos al montar el componente
-onMounted(() => {
-  // Verificar autenticación
-  if (!localStorage.getItem('auth')) {
-    router.push('/')
-    return
-  }
-  
-  fetchReservation()
-})
 </script>

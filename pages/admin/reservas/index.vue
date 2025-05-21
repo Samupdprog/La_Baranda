@@ -3,84 +3,34 @@
     <!-- Header -->
     <header class="bg-emerald-800 text-white shadow-md">
       <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a href="../admin/dashboard">
-          <h1 class="text-2xl font-bold">La Baranda</h1>
-        </a>
+        <div class="flex items-center gap-3">
+          <h1 class="text-2xl font-bold">Gestión de Reservas</h1>
+        </div>
         <div class="flex items-center gap-4">
-          <span class="text-sm">
-            Hoy: {{ new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) }}
-          </span>
+          <router-link 
+            to="/admin/dashboard" 
+            class="text-white hover:text-gray-200 flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            </svg>
+            Dashboard
+          </router-link>
           <button 
-            class="bg-white text-emerald-800 px-3 py-1.5 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors"
+            class="bg-white text-emerald-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors flex items-center gap-2"
             @click="navigateToCreateReservation"
           >
-            Crear reserva
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Nueva Reserva
           </button>
         </div>
       </div>
     </header>
 
-    <!-- Debug Info -->
-    <div class="container mx-auto px-4 py-2 bg-yellow-100 text-yellow-800 rounded-md mt-4">
-      <p>Total reservas: {{ reservations.length }}</p>
-      <p>Fecha seleccionada: {{ formattedDate }}</p>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="container mx-auto px-4 py-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
-          <div class="bg-emerald-100 p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500">Reservas</p>
-            <p class="text-2xl font-bold">{{ reservations.length }}</p>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
-          <div class="bg-blue-100 p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500">Comensales</p>
-            <p class="text-2xl font-bold">{{ totalPeople }}</p>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
-          <div class="bg-amber-100 p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500">Total brunchs</p>
-            <p class="text-2xl font-bold">{{ totalBrunchs }}</p>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
-          <div class="bg-green-100 p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500">Ventas</p>
-            <p class="text-2xl font-bold">{{ totalSales }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Date Navigation and Search -->
-    <div class="container mx-auto px-4 pb-6">
+    <div class="container mx-auto px-4 py-6">
       <div class="bg-white rounded-lg shadow p-4">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4">
           <div class="flex items-center gap-2">
@@ -141,6 +91,59 @@
           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
             Efectivo: {{ paymentCounts.efectivo }}
           </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="container mx-auto px-4 pb-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
+          <div class="bg-emerald-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Reservas</p>
+            <p class="text-2xl font-bold">{{ reservations.length }}</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
+          <div class="bg-blue-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Comensales</p>
+            <p class="text-2xl font-bold">{{ totalPeople }}</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
+          <div class="bg-amber-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Total brunchs</p>
+            <p class="text-2xl font-bold">{{ totalBrunchs }}</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-4 flex items-center gap-4">
+          <div class="bg-green-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Ventas</p>
+            <p class="text-2xl font-bold">{{ totalSales }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -212,7 +215,11 @@
                 <td class="px-4 py-3 text-sm">{{ formatTime(reservation.time) }}</td>
                 <td class="px-4 py-3 text-sm">{{ reservation.people_count }}</td>
                 <td class="px-4 py-3 text-sm">{{ reservation.brunch_summary }}</td>
-                <td class="px-4 py-3 text-sm">{{ reservation.payment_method }}</td>
+                <td class="px-4 py-3 text-sm">
+                  <span class="px-2 py-1 text-xs rounded-full" :class="getStatusClass(reservation.payment_status)">
+                    {{ reservation.payment_method }} - {{ reservation.payment_status === 'succeeded' ? 'Pagado' : 'Pendiente' }}
+                  </span>
+                </td>
                 <td class="px-4 py-3 text-sm">{{ reservation.total_amount_formatted }}</td>
                 <td class="px-4 py-3 text-sm">
                   <div class="flex gap-2">
@@ -316,6 +323,13 @@ export default {
       return timeString;
     }
 
+    // Obtener clase de estado
+    const getStatusClass = (status) => {
+      return status === 'succeeded' 
+        ? 'bg-green-100 text-green-800' 
+        : 'bg-yellow-100 text-yellow-800'
+    }
+
     // Navegar entre días
     const navigateDay = (direction) => {
       const newDate = new Date(currentDate.value)
@@ -337,7 +351,7 @@ export default {
       error.value = null;
       
       try {
-        // Usar la nueva función para obtener reservas por fecha
+        // Usar la función para obtener reservas por fecha
         const data = await getReservationsByDate(currentDate.value);
         
         // Log para depuración
@@ -388,24 +402,20 @@ export default {
     });
 
     // Estadísticas
-    const todayReservations = computed(() => {
-      return reservations.value;
-    });
-
     const totalPeople = computed(() => {
-      return todayReservations.value.reduce((sum, reservation) => {
+      return reservations.value.reduce((sum, reservation) => {
         return sum + (reservation.people_count || 0);
       }, 0);
     });
 
     const totalBrunchs = computed(() => {
-      return todayReservations.value.reduce((sum, reservation) => {
+      return reservations.value.reduce((sum, reservation) => {
         return sum + (reservation.total_brunchs || 0);
       }, 0);
     });
 
     const totalSales = computed(() => {
-      const amount = todayReservations.value.reduce((sum, reservation) => {
+      const amount = reservations.value.reduce((sum, reservation) => {
         return sum + (reservation.total_amount || 0);
       }, 0);
       
@@ -421,7 +431,7 @@ export default {
         newYork: 0
       };
       
-      todayReservations.value.forEach(reservation => {
+      reservations.value.forEach(reservation => {
         if (!reservation || !reservation.brunches) {
           return;
         }
@@ -469,7 +479,7 @@ export default {
         efectivo: 0
       };
       
-      todayReservations.value.forEach(reservation => {
+      reservations.value.forEach(reservation => {
         if (reservation.payment_method === 'Tarjeta') {
           counts.tarjeta++;
         } else if (reservation.payment_method === 'Efectivo') {
@@ -524,12 +534,12 @@ export default {
       itemsPerPage,
       formattedDate,
       formatTime,
+      getStatusClass,
       navigateDay,
       navigateToCreateReservation,
       fetchReservationsByDate,
       filteredReservations,
       totalPages,
-      todayReservations,
       totalPeople,
       totalBrunchs,
       totalSales,
@@ -542,7 +552,3 @@ export default {
   }
 }
 </script>
-
-<style>
-/* Estilos adicionales si son necesarios */
-</style>

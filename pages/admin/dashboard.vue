@@ -29,7 +29,7 @@
         <div class="bg-white rounded-lg shadow p-4">
           <div class="flex justify-between items-start">
             <div>
-              <p class="text-sm text-gray-500">Total Reservaciones</p>
+              <p class="text-sm text-gray-500">Total Reservas</p>
               <p class="text-2xl font-bold">{{ totalReservations }}</p>
               <p class="text-xs text-gray-500">Pro. Grupo: {{ avgGroupSize }}</p>
             </div>
@@ -96,7 +96,7 @@
         <div class="lg:col-span-2 space-y-6">
           <!-- Reservations by Date -->
           <div class="bg-white rounded-lg shadow p-4">
-            <h2 class="text-lg font-medium mb-4">Reservaciones por Fecha</h2>
+            <h2 class="text-lg font-medium mb-4">Reservas por Fecha</h2>
             <div class="h-64">
               <canvas ref="reservationsByDateChart"></canvas>
             </div>
@@ -105,9 +105,9 @@
           <!-- Today's and Upcoming Reservations -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white rounded-lg shadow p-4">
-              <h2 class="text-lg font-medium mb-4">Reservaciones de Hoy</h2>
+              <h2 class="text-lg font-medium mb-4">Reservas de Hoy</h2>
               <div v-if="todayReservations.length === 0" class="text-center py-8 text-gray-500">
-                No hay reservaciones para hoy
+                No hay Reservas para hoy
               </div>
               <div v-else class="space-y-3">
                 <div v-for="reservation in todayReservations" :key="reservation.id" class="border-b pb-3 last:border-0">
@@ -127,9 +127,9 @@
             </div>
 
             <div class="bg-white rounded-lg shadow p-4">
-              <h2 class="text-lg font-medium mb-4">Próximas Reservaciones</h2>
+              <h2 class="text-lg font-medium mb-4">Próximas Reservas</h2>
               <div v-if="upcomingReservations.length === 0" class="text-center py-8 text-gray-500">
-                No hay próximas reservaciones
+                No hay próximas Reservas
               </div>
               <div v-else class="space-y-3">
                 <div v-for="reservation in upcomingReservations" :key="reservation.id" class="border-b pb-3 last:border-0">
@@ -152,7 +152,7 @@
               <div class="mt-4 text-center">
                 <a href="./reservas">
                     <button class="text-sm text-emerald-600 hover:text-emerald-800">
-                    Ver todas las reservaciones
+                    Ver todas las Reservas
                     </button>
                 </a>
               </div>
@@ -662,7 +662,7 @@ export default {
           data: {
             labels: reservationsByDate.value.labels,
             datasets: [{
-              label: 'Reservaciones',
+              label: 'Reservas',
               data: reservationsByDate.value.data,
               backgroundColor: '#4f46e5',
               borderRadius: 4
