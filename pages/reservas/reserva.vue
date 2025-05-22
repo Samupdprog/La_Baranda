@@ -1121,6 +1121,9 @@ input[type="number"] {
 
 <style scoped>
 /* Custom styles for the language selector */
+
+
+
 select {
   appearance: none;
   -webkit-appearance: none;
