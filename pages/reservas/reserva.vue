@@ -102,7 +102,7 @@
               <div>
                 <h2 class="text-xl text-stone-800 mb-6 border-b border-stone-200 pb-2">{{ $t('reservation.details') }}</h2>
                 
-                <!-- Number of People - FIXED STRUCTURE -->
+                <!-- Number of People -->
                 <div class="mb-6">
                   <label for="people_count" class="block text-stone-700 mb-2">{{ $t('reservation.people_count') }} *</label>
                   <div class="relative">
@@ -197,7 +197,6 @@
                   <span v-if="errors.brunches" class="ml-2 text-red-500">✗</span>
                 </h2>
                 
-                <!-- Precio por brunch -->
                 <div class="mb-4 text-sm text-stone-600">
                   {{ $t('reservation.price_per_brunch') }}
                 </div>
@@ -206,7 +205,6 @@
                   <div v-for="brunch in brunchOptions" :key="brunch.id" class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
                     <div class="flex items-center space-x-2">
                       <span class="text-stone-700">{{ brunch.title }}</span>
-                      <!-- Tooltip Icon -->
                       <div class="relative group">
                         <span 
                           class="text-amber-500 cursor-pointer"
@@ -320,7 +318,6 @@
                         {{ $t('reservation.total_payment_notice') }} 
                         <span class="text-amber-500 font-semibold">{{ formattedDepositAmount }}</span>
                       </p>
-                      
                     </template>
                     <template v-else-if="formData.payment_method === 'card'">
                       <p class="text-sm text-stone-700">
@@ -389,7 +386,7 @@
             <!-- Stripe Payment Component (Only shown when form is valid) -->
             <StripePayment
               v-if="isFormValid && (formData.payment_method === 'card' || formData.payment_method === 'cash') && totalBrunchs > 0"
-              :items="buildItems()"
+              :reservation-data="prepareReservationData()"
               @payment-success="handlePaymentSuccess"
               @payment-error="handlePaymentError"
               :key="stripeComponentKey"
@@ -438,7 +435,7 @@ const formData = reactive({
   phone: '',
   language: locale.value,
   people_count: 1,
-  brunches: {}, // Object to store quantities for each brunch type
+  brunches: {},
   date: '',
   time: '',
   payment_method: '',
@@ -466,12 +463,12 @@ const valid = reactive({
   surname: false,
   email: false,
   phone: false,
-  people_count: true, // Default to true since we start with 1
+  people_count: true,
   date: false,
   time: false,
   payment_method: false,
   brunches: false,
-  allergies: true, // Optional field, starts as valid
+  allergies: true,
   accept_terms: false,
 });
 
@@ -489,7 +486,7 @@ const toggleTooltip = (id) => {
   tooltipVisible.value = tooltipVisible.value === id ? null : id;
 };
 
-// Brunch options - FIXED to use ref instead of computed
+// Brunch options
 const brunchOptions = ref([]);
 
 // Key for Stripe component to force re-render when form changes
@@ -503,11 +500,9 @@ const isFormValid = computed(() => {
 // Initialize brunch quantities to 0
 onMounted(() => {
   updateBrunchOptions();
-  // Initialize brunches object if not already done
   if (!formData.brunches) {
     formData.brunches = {};
   }
-  // Set all brunch quantities to 0
   brunchOptions.value.forEach((br) => {
     formData.brunches[br.id] = 0;
   });
@@ -536,35 +531,32 @@ watch(
   () => locale.value,
   () => {
     updateBrunchOptions();
-    // Update brunch quantities for any new options
     brunchOptions.value.forEach((br) => {
       if (typeof formData.brunches[br.id] === 'undefined') {
         formData.brunches[br.id] = 0;
       }
     });
     
-    // Update form language
     formData.language = locale.value;
     
-    // Re-validate fields to update error messages in new language
     if (Object.values(errors).some(error => error !== '')) {
       validateAllFields();
     }
   },
-  { immediate: true } // Ensure the watcher runs on component mount
+  { immediate: true }
 );
 
 // Generate available times (10:00 AM to 12:00 PM, 15-minute intervals)
 const availableTimes = [];
 for (let hour = 10; hour <= 12; hour++) {
   for (let minutes = 0; minutes < 60; minutes += 15) {
-    if (hour === 12 && minutes > 0) break; // Stop at 12:00 PM
+    if (hour === 12 && minutes > 0) break;
     const time = `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     availableTimes.push(time);
   }
 }
 
-// Minimum date (2 days from today) - IMPROVED to ensure 48 hours minimum
+// Minimum date (2 days from today)
 const minDate = computed(() => {
   const today = new Date();
   today.setDate(today.getDate() + 2);
@@ -621,9 +613,8 @@ const handlePaymentMethodChange = () => {
   }
 };
 
-// Handle form changes - regenerate Stripe component when form changes
+// Handle form changes
 const handleFormChange = () => {
-  // Increment the key to force re-render of Stripe component
   stripeComponentKey.value++;
 };
 
@@ -684,12 +675,10 @@ const validateField = (field) => {
       if (!formData.people_count || formData.people_count < 1) {
         errors.people_count = t('reservation.people_count_required');
         valid.people_count = false;
-        // Ensure minimum value is 1
         formData.people_count = 1;
       } else if (formData.people_count > 10) {
         errors.people_count = t('reservation.people_count_max');
         valid.people_count = false;
-        // Ensure maximum value is 10
         formData.people_count = 10;
       } else {
         errors.people_count = '';
@@ -702,11 +691,10 @@ const validateField = (field) => {
         errors.date = t('reservation.date_required');
         valid.date = false;
       } else {
-        // Check if date is at least 48 hours from now
         const selectedDate = new Date(formData.date);
         const minAllowedDate = new Date();
         minAllowedDate.setDate(minAllowedDate.getDate() + 2);
-        minAllowedDate.setHours(0, 0, 0, 0); // Set to beginning of day
+        minAllowedDate.setHours(0, 0, 0, 0);
         
         if (selectedDate < minAllowedDate) {
           errors.date = t('reservation.date_min_48h');
@@ -777,10 +765,8 @@ const validateAllFields = (showErrors = true) => {
     validateField('accept_terms');
   }
   
-  // Check if allergies text is within character limit
   const isAllergiesValid = charCount.value <= maxChars;
   
-  // Check if all required fields are valid
   return valid.name && 
          valid.surname && 
          valid.email && 
@@ -800,18 +786,16 @@ const totalBrunchs = computed(() => {
 });
 
 const totalAmount = computed(() => {
-  // Precio por brunch: 25€ (en céntimos)
-  return totalBrunchs.value * 2500;
+  return totalBrunchs.value * 2500; // 25€ en céntimos
 });
 
 const depositAmount = computed(() => {
-  // Depósito por brunch: 6€ (en céntimos)
-  return totalBrunchs.value * 600;
+  return totalBrunchs.value * 600; // 6€ en céntimos
 });
 
 // Formatear montos según el idioma
 const formattedTotalAmount = computed(() => {
-  const amount = totalAmount.value / 100; // Convertir de céntimos a euros
+  const amount = totalAmount.value / 100;
   
   if (locale.value === 'en') {
     return `€${amount.toFixed(2)}`;
@@ -821,7 +805,7 @@ const formattedTotalAmount = computed(() => {
 });
 
 const formattedDepositAmount = computed(() => {
-  const amount = depositAmount.value / 100; // Convertir de céntimos a euros
+  const amount = depositAmount.value / 100;
   
   if (locale.value === 'en') {
     return `€${amount.toFixed(2)}`;
@@ -831,46 +815,13 @@ const formattedDepositAmount = computed(() => {
 });
 
 // Stripe payment handling
-const isProcessingPayment = ref(false);
 const paymentError = ref('');
-const showPaymentForm = ref(false);
-const submitting = ref(false);
 
-// Función para construir los items para Stripe
-function buildItems() {
-  const items = [];
-  if (formData.payment_method === 'cash') {
-    // Para pago en efectivo, se cobra el "seguro" de 6€ por brunch
-    items.push({
-      productId: 'prod_SJiCqRm6KZnd5Y',
-      quantity: totalBrunchs.value
-    });
-  } else {
-    // Para pago con tarjeta, se cobran los brunches a 25€ c/u
-    const map = {
-      '1': 'prod_SJi8WSsiE7cboJ',   // New York
-      '2': 'prod_SJi8jydFR9oyNV',    // Deluxe
-      '3': 'prod_SJi2U6K27tsau6'     // Metropolitan
-    };
-    for (const [id, qty] of Object.entries(formData.brunches)) {
-      if (qty > 0) {
-        items.push({
-          productId: map[id],
-          quantity: qty
-        });
-      }
-    }
-  }
-  return items;
-}
-
-// Función para preparar los datos a enviar a Node-RED
-const prepareDataForNodeRED = () => {
-  // Crear un objeto con los datos del formulario y del pago
+// Función para preparar los datos de la reserva
+const prepareReservationData = () => {
   const selectedBrunches = {};
   let brunchTitles = [];
   
-  // Obtener los nombres de los brunchs seleccionados
   brunchOptions.value.forEach(brunch => {
     if (formData.brunches[brunch.id] > 0) {
       selectedBrunches[brunch.id] = {
@@ -881,151 +832,62 @@ const prepareDataForNodeRED = () => {
       brunchTitles.push(`${brunch.title} (${formData.brunches[brunch.id]})`);
     }
   });
-  
-  // Crear el objeto con todos los datos
+
+  // NUEVO: calcular el amount a cobrar según método de pago
+  const isCash = formData.payment_method === 'cash';
+  const amountToCharge = isCash ? depositAmount.value : totalAmount.value;
+  const formattedAmountToCharge = isCash ? formattedDepositAmount.value : formattedTotalAmount.value;
+
   return {
-    // Datos personales
+    reservation_id: `RES-${Date.now().toString(36).toUpperCase()}`,
     name: formData.name,
     surname: formData.surname,
     email: formData.email,
     phone: formData.phone,
     language: formData.language,
-    
-    // Detalles de la reserva
     people_count: formData.people_count,
     date: formData.date,
     time: formData.time,
-    
-    // Detalles del brunch
     brunches: selectedBrunches,
     brunch_summary: brunchTitles.join(', '),
     total_brunchs: totalBrunchs.value,
-    
-    // Detalles del pago
     payment_method: formData.payment_method,
-    total_amount: totalAmount.value,
-    total_amount_formatted: formattedTotalAmount.value,
+    payment_type: isCash ? 'cash' : 'card',
+    total_amount: amountToCharge, // <-- aquí
+    total_amount_formatted: formattedAmountToCharge, // <-- aquí
     deposit_amount: depositAmount.value,
     deposit_amount_formatted: formattedDepositAmount.value,
-    
-    // Información adicional
-    allergies: formData.allergies || 'Ninguna',
-    
-    // Timestamp
-    reservation_date: new Date().toISOString(),
-    reservation_id: `RES-${Date.now().toString(36).toUpperCase()}`
+    allergies: formData.allergies || 'Ninguna'
   };
 };
 
-// Manejar el éxito del pago con tarjeta
+// Manejar el éxito del pago
 const handlePaymentSuccess = async ({ paymentIntentId, clientSecret }) => {
   try {
-    // Preparar los datos para enviar a Node-RED
-    const dataToSend = prepareDataForNodeRED();
-    
-    // Añadir información específica del pago con tarjeta
+    const dataToSend = prepareReservationData();
     dataToSend.payment_intent_id = paymentIntentId;
     dataToSend.payment_status = 'succeeded';
-    dataToSend.payment_type = 'card';
     
-    // Guardar los datos en localStorage para que la página de confirmación pueda acceder a ellos
     localStorage.setItem('reservationData', JSON.stringify(dataToSend));
-    
-    // También guardar el importe en sessionStorage como respaldo
     sessionStorage.setItem('reservationAmount', formattedTotalAmount.value);
     
-    // Enviar los datos a Node-RED
-    try {
-      const response = await fetch('https://51.44.85.162:1880/formulario', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dataToSend)
-      });
-      
-      if (!response.ok) {
-        console.warn('Error al enviar datos a Node-RED:', response.statusText);
-      } else {
-        console.log('Datos enviados correctamente a Node-RED');
-      }
-    } catch (error) {
-      console.error('Error de conexión con Node-RED:', error);
-      // No interrumpimos el flujo si falla Node-RED
-    }
-  } catch (error) {
-    console.error('Error al procesar el pago:', error);
-  } finally {
     navigateTo({
       path: '/reservas/confirmacion',
       query: {
         payment_intent: paymentIntentId,
         payment_intent_client_secret: clientSecret,
-        reservation_data: 'stored', // Indicador para que la página de confirmación sepa que hay datos en localStorage
-        amount: formattedTotalAmount.value // Añadir el importe como parámetro de URL
-      }
-    });
-  }
-};
-
-// También actualiza la función processCashPayment para hacer lo mismo con los pagos en efectivo
-const processCashPayment = async () => {
-  // Validar el formulario
-  const isValid = validateAllFields();
-  
-  if (!isValid) {
-    alert(t('reservation.form_error'));
-    return;
-  }
-  
-  submitting.value = true;
-  
-  try {
-    // Preparar los datos para enviar a Node-RED
-    const dataToSend = prepareDataForNodeRED();
-    
-    // Añadir información específica del pago en efectivo
-    dataToSend.payment_status = 'pending';
-    dataToSend.payment_type = 'cash';
-    dataToSend.deposit_only = true;
-    
-    // Guardar los datos en localStorage para que la página de confirmación pueda acceder a ellos
-    localStorage.setItem('reservationData', JSON.stringify(dataToSend));
-    
-    // También guardar el importe del depósito en sessionStorage como respaldo
-    sessionStorage.setItem('reservationAmount', formattedDepositAmount.value);
-    
-    // Enviar los datos a Node-RED
-    const response = await fetch('https://51.44.85.162:1880/formulario', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dataToSend)
-    });
-    
-    if (!response.ok) {
-      throw new Error('Error al enviar datos a Node-RED');
-    }
-    
-    // Simular procesamiento del pago
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Mostrar mensaje de éxito
-    alert(t('reservation.cash_deposit_success'));
-    
-    // Resetear el formulario
-    resetForm();
-    
-    // Redirigir a la página de confirmación con el importe como parámetro
-    navigateTo({
-      path: '/reservas/confirmacion',
-      query: {
-        amount: formattedDepositAmount.value
+        reservation_data: 'stored',
+        amount: formattedTotalAmount.value
       }
     });
   } catch (error) {
     console.error('Error al procesar el pago:', error);
-    alert(t('reservation.payment_processing_error'));
-  } finally {
-    submitting.value = false;
   }
+};
+
+// Manejar errores de pago
+const handlePaymentError = (error) => {
+  paymentError.value = error;
 };
 
 // Manejar el envío del formulario
@@ -1033,7 +895,6 @@ const handleSubmit = async () => {
   const isValid = validateAllFields();
   if (!isValid) {
     alert(t('reservation.form_error'));
-    // Scroll al primer error...
     const firstErrorField = Object.keys(errors).find(key => errors[key]);
     if (firstErrorField) {
       const element = document.querySelector(`[name="${firstErrorField}"]`);
@@ -1044,45 +905,6 @@ const handleSubmit = async () => {
     }
     return;
   }
-};
-
-// Función para resetear el formulario
-const resetForm = () => {
-  Object.keys(formData).forEach(key => {
-    if (key === 'people_count') {
-      formData[key] = 1;
-    } else if (key === 'brunches') {
-      const brunchesObj = {};
-      brunchOptions.value.forEach(br => {
-        brunchesObj[br.id] = 0;
-      });
-      formData.brunches = brunchesObj;
-    } else if (key === 'language') {
-      formData[key] = locale.value;
-    } else {
-      formData[key] = '';
-    }
-  });
-  formData.accept_terms = false;
-  
-  // Reset validation state
-  Object.keys(valid).forEach(key => {
-    if (key === 'allergies') {
-      valid[key] = true;
-    } else if (key === 'people_count') {
-      valid[key] = true;
-    } else {
-      valid[key] = false;
-    }
-  });
-  Object.keys(errors).forEach(key => {
-    errors[key] = '';
-  });
-  
-  // Reset payment state
-  paymentError.value = '';
-  showPaymentForm.value = false;
-  stripeComponentKey.value++;
 };
 </script>
 

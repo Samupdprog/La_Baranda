@@ -32,10 +32,6 @@
 import { ref, onMounted, nextTick } from 'vue';
 import { useNuxtApp } from '#app';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
-
-// Router para navegación
-const router = useRouter();
 
 // Definimos los eventos que emitirá el componente
 const emit = defineEmits(['payment-success', 'payment-error']);
@@ -45,8 +41,8 @@ const { t: $t } = useI18n();
 
 // Props
 const props = defineProps({
-  items: {
-    type: Array,
+  reservationData: {
+    type: Object,
     required: true
   }
 });
@@ -63,13 +59,15 @@ const errorMessage = ref('');
 const isReady = ref(false);
 const paymentIntentId = ref('');
 
-// i18n instance should be used at the top level
+// i18n instance
 const i18n = useI18n();
 const t = i18n.t;
 
+// Initialize payment element outside of conditional rendering
+initializePaymentElement();
+
 onMounted(async () => {
   stripe.value = $stripe;
-  await initializePaymentElement();
 });
 
 async function initializePaymentElement() {
@@ -79,7 +77,7 @@ async function initializePaymentElement() {
     const response = await fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: props.items })
+      body: JSON.stringify(props.reservationData)
     });
     
     if (!response.ok) {
@@ -98,7 +96,6 @@ async function initializePaymentElement() {
     paymentElement.mount('#payment-element');
     paymentElement.on('ready', () => { isReady.value = true; });
     paymentElement.on('change', (event) => {
-      // Limpiar mensajes de error cuando el usuario modifica los datos
       if (event.complete) {
         errorMessage.value = '';
       }
@@ -122,7 +119,6 @@ async function handleSubmit() {
   errorMessage.value = '';
 
   try {
-    // Preparar la URL de retorno
     const returnUrl = `${window.location.origin}/reservas/confirmacion?payment_intent=${paymentIntentId.value || clientSecret.value.split('_secret')[0]}&payment_intent_client_secret=${clientSecret.value}`;
     
     const { error, paymentIntent } = await stripe.value.confirmPayment({
@@ -133,23 +129,18 @@ async function handleSubmit() {
       redirect: 'if_required'
     });
 
-    // Si llegamos aquí, es porque hubo un error o no se requirió redirección
     if (error) {
       throw error;
     } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-      // Solo emitir el evento payment-success si el pago ha sido exitoso
       emit('payment-success', {
         paymentIntentId: paymentIntent.id || paymentIntentId.value || clientSecret.value.split('_secret')[0],
         clientSecret: clientSecret.value
       });
       
-      // Esperar un breve momento para que el evento se procese
       setTimeout(() => {
-        // Redirigir después de un pequeño retraso
         window.location.href = returnUrl;
       }, 500);
     } else {
-      // Si el pago no se completó pero no hay error
       errorMessage.value = t('reservation.payment_incomplete');
       emit('payment-error', errorMessage.value);
     }
@@ -168,6 +159,8 @@ async function handleSubmit() {
   }
 }
 </script>
+
+
 
 <style scoped>
 .bg-amber-500 { background-color: #f59e0b; }
