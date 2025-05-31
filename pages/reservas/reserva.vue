@@ -563,6 +563,25 @@ const minDate = computed(() => {
   return today.toISOString().split('T')[0];
 });
 
+// Función para saber si una fecha es lunes
+const isMonday = (dateStr) => {
+  if (!dateStr) return false;
+  const date = new Date(dateStr);
+  return date.getDay() === 1; // 1 = lunes
+};
+
+// Watcher para limpiar el campo si es lunes
+watch(
+  () => formData.date,
+  (newDate) => {
+    if (isMonday(newDate)) {
+      formData.date = '';
+      errors.date = t('reservation.no_mondays');
+      valid.date = false;
+    }
+  }
+);
+
 // Helper functions for incrementing/decrementing counters
 const incrementPeople = () => {
   if(formData.people_count < 10) {

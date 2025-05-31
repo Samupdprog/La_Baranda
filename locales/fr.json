@@ -80,6 +80,7 @@
     "name":                  "Prénom",
     "name_required":         "Le prénom est obligatoire.",
     "surname":               "Nom",
+    "no_mondays":           "Nous ne prenons pas de réservations le lundi.",
     "surname_required":      "Le nom est obligatoire.",
     "email":                 "E-mail",
     "email_required":        "L'e-mail est obligatoire.",

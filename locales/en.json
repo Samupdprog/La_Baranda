@@ -65,6 +65,7 @@
     }
   },
   "reservation": {
+    "no_mondays":           "Reservations are not available on Mondays.",
     "loading_payment":         "Loading payment method…",
     "pay":                     "Pay",
     "paying":                  "Processing payment",

@@ -65,6 +65,7 @@
     }
   },
   "reservation": {
+    "no_mondays": "Reservierungen sind montags nicht möglich.",
     "loading_payment": "Zahlungsmethode wird geladen…",
     "pay": "Bezahlen",
     "paying": "Zahlung wird verarbeitet…",
